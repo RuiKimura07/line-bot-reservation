@@ -33,13 +33,14 @@ export class SignatureValidator {
         .update(body, 'utf8')
         .digest('base64');
 
-      const expectedSignature = `sha256=${hash}`;
+      // LINEの署名は単純なbase64ハッシュ（sha256=プレフィックスなし）
+      const expectedSignature = hash;
       const providedSignature = signature;
 
       if (expectedSignature.length !== providedSignature.length) {
         return {
           isValid: false,
-          error: 'Invalid signature length',
+          error: `Invalid signature length. Expected: ${expectedSignature.length}, Got: ${providedSignature.length}`,
         };
       }
 
