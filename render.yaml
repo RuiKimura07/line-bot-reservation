@@ -1,0 +1,41 @@
+services:
+  # Webサービス
+  - type: web
+    name: line-bot-reservation
+    runtime: node
+    buildCommand: npm install && npm run build && npm run migrate
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: line-bot-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: line-bot-redis
+          property: connectionString
+      - key: LINE_CHANNEL_ACCESS_TOKEN
+        sync: false
+      - key: LINE_CHANNEL_SECRET
+        sync: false
+      - key: PORT
+        value: 3000
+      - key: REMINDER_HOUR
+        value: 10
+      - key: BUSINESS_HOURS_START
+        value: 11
+      - key: BUSINESS_HOURS_END
+        value: 22
+
+databases:
+  # PostgreSQLデータベース
+  - name: line-bot-db
+    databaseName: line_bot_reservation
+    user: linebot
+    plan: free
+
+# Redisインスタンス
+# 注意: Render.comの無料プランではRedisは別途設定が必要です
