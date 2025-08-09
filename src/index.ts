@@ -5,6 +5,7 @@ import { webhookHandler } from './handlers/webhook.handler';
 import { reminderWorker } from './workers/reminder.worker';
 import { databaseService } from './services/database.service';
 import { redisService } from './services/memory-session.service';
+import { timeslotInitService } from './services/timeslot-init.service';
 
 const fastify = Fastify({
   logger: {
@@ -43,6 +44,11 @@ async function start() {
     });
 
     fastify.post('/webhook', webhookHandler);
+
+    // データベース初期化とタイムスロット作成
+    await databaseService.initialize();
+    await timeslotInitService.initializeTimeSlots();
+    console.log('Database and time slots initialized');
 
     reminderWorker.start();
 

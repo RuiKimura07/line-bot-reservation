@@ -15,11 +15,14 @@ export async function webhookHandler(
   reply: FastifyReply
 ): Promise<void> {
   try {
+    console.log('Webhook received:', JSON.stringify(request.body, null, 2));
+    
     const signature = request.headers['x-line-signature'] as string;
     const body = JSON.stringify(request.body);
 
     const validation = signatureValidator.validate(body, signature);
     if (!validation.isValid) {
+      console.error(`Invalid signature: ${validation.error}`);
       request.log.warn(`Invalid signature: ${validation.error}`);
       reply.status(401).send({ error: 'Unauthorized' });
       return;
@@ -82,23 +85,29 @@ async function handleMessageEvent(event: MessageEvent): Promise<void> {
   // Check if user is in an active reservation session
   const userId = event.source.userId;
   if (userId) {
-    const session = await import('../services/memory-session.service').then(m => m.redisService.getSession(userId));
+    const session = await import('../services/memory-session.service').then(m => m.memorySessionService.getSession(userId));
     if (session && session.state === 'confirming') {
       await reservationHandler.handleTextMessage(event);
       return;
     }
   }
 
+  console.log(`Received message: "${messageText}" from user: ${userId}`);
+  
   if (isReservationKeyword(messageText)) {
+    console.log('Detected reservation keyword, handling reservation request');
     await reservationHandler.handleReservationRequest(event);
   } else {
+    console.log('Checking FAQ response');
     const faqResponse = await faqHandler.handleFAQ(messageText);
     if (faqResponse) {
+      console.log(`FAQ response found: ${faqResponse}`);
       await lineService.replyMessage(
         event.replyToken,
         lineService.createTextMessage(faqResponse)
       );
     } else {
+      console.log('No FAQ match, sending default message');
       await lineService.replyMessage(
         event.replyToken,
         lineService.createTextMessage(
