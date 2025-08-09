@@ -7,11 +7,11 @@ export class FAQHandler {
     }
 
     if (lowerMessage.includes('場所') || lowerMessage.includes('アクセス') || lowerMessage.includes('どこ')) {
-      return '📍 住所：東京都渋谷区〇〇1-2-3\n🚃 アクセス：JR渋谷駅より徒歩5分\n詳しいアクセス情報は以下をご確認ください：\nhttps://example.com/access';
+      return '📍 住所：[実際の住所を入力]\n🚃 アクセス：[実際のアクセス方法]\n詳しいアクセス情報：[実際のURL]';
     }
 
     if (lowerMessage.includes('メニュー') || lowerMessage.includes('料理')) {
-      return '🍽️ メニューはこちらからご確認いただけます：\nhttps://example.com/menu\n\n人気メニュー：\n• 特選ステーキ\n• 季節のパスタ\n• 自家製デザート';
+      return '🍽️ メニューはこちらからご確認いただけます：\n[実際のメニューURL]\n\n人気メニュー：\n• [実際のメニュー1]\n• [実際のメニュー2]\n• [実際のメニュー3]';
     }
 
     if (lowerMessage.includes('キャンセル') || lowerMessage.includes('取消')) {
@@ -19,7 +19,7 @@ export class FAQHandler {
     }
 
     if (lowerMessage.includes('電話') || lowerMessage.includes('連絡')) {
-      return '📞 お電話でのお問い合わせ：\n03-1234-5678\n受付時間：10:00-21:00';
+      return '📞 お電話でのお問い合わせ：\n[実際の電話番号]\n受付時間：[実際の受付時間]';
     }
 
     return null;

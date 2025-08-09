@@ -38,7 +38,7 @@ export class TimeSlotModel {
        ORDER BY slot_date`
     );
     
-    return result.rows.map(row => row.slot_date);
+    return result.rows.map((row: any) => row.slot_date);
   }
 
   async findSlotById(slotId: number): Promise<TimeSlot | null> {

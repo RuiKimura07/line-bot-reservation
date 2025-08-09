@@ -1,5 +1,7 @@
 import * as cron from 'node-cron';
-import { notificationService } from '../services/notification.service';
+import { NotificationService } from '../services/notification.service';
+
+const notificationService = new NotificationService();
 import { config } from '../config';
 
 export class ReminderWorker {

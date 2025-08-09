@@ -9,14 +9,14 @@ export class MessageBuilder {
     const contents = dates.slice(0, 12).map(date => {
       const japaneseDate = DateHelper.getJapaneseDate(date);
       return {
-        type: 'button',
+        type: 'button' as const,
         action: {
-          type: 'postback',
+          type: 'postback' as const,
           label: japaneseDate,
           data: `action=select_date&date=${date}`,
         },
-        style: 'primary',
-        margin: 'sm',
+        style: 'primary' as const,
+        margin: 'sm' as const,
       };
     });
 
@@ -82,14 +82,14 @@ export class MessageBuilder {
       .filter(slot => slot.is_available)
       .slice(0, 10)
       .map(slot => ({
-        type: 'button',
+        type: 'button' as const,
         action: {
-          type: 'postback',
+          type: 'postback' as const,
           label: `${DateHelper.formatTime(slot.start_time)} (${slot.available}席)`,
           data: `action=select_time&date=${date}&time=${slot.start_time}&slot_id=${slot.slot_id}`,
         },
-        style: 'primary',
-        margin: 'sm',
+        style: 'primary' as const,
+        margin: 'sm' as const,
       }));
 
     if (timeButtons.length === 0) {
@@ -289,25 +289,25 @@ export class MessageBuilder {
               margin: 'md',
             },
             ...(specialRequests ? [{
-              type: 'box',
-              layout: 'vertical',
+              type: 'box' as const,
+              layout: 'vertical' as const,
               contents: [
                 {
-                  type: 'text',
+                  type: 'text' as const,
                   text: '📝 特別なご要望',
-                  weight: 'bold',
-                  size: 'sm',
+                  weight: 'bold' as const,
+                  size: 'sm' as const,
                   color: '#333333',
                 },
                 {
-                  type: 'text',
+                  type: 'text' as const,
                   text: specialRequests,
-                  size: 'md',
-                  margin: 'xs',
+                  size: 'md' as const,
+                  margin: 'xs' as const,
                   wrap: true,
                 },
               ],
-              margin: 'md',
+              margin: 'md' as const,
             }] : []),
           ],
         },

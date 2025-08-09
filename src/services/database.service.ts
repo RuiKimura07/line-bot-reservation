@@ -13,7 +13,7 @@ export class DatabaseService {
       ssl: config.server.nodeEnv === 'production' ? { rejectUnauthorized: false } : false,
     });
 
-    this.pool.on('error', (err) => {
+    this.pool.on('error', (err: Error) => {
       console.error('Unexpected error on idle client', err);
       process.exit(-1);
     });
